@@ -1,0 +1,39 @@
+.App {
+  width: 50%;
+}
+.ipt-repos {
+  margin-top: 50px;
+  position: relative;
+  width: 50%;
+}
+.filtered-repos {
+  background-color: rgb(241, 241, 241);
+  position: fixed;
+  display: block;
+  flex-direction: column;
+  -webkit-box-shadow: 0px 0px 5px 0px #0000005e; 
+  box-shadow: 0px 0px 5px 0px #0000005b;
+}
+.filtered-repos li {
+  list-style: none;
+  padding: 10px 20px 10px 20px;
+  transition: all 0.1s ease-out;
+}
+.filtered-repos li:hover {
+  background-color: #fff;
+}
+.filtered-repos li a {
+  list-style: none;
+  text-decoration: none;
+  color: rgb(48, 48, 48); 
+}
+.repositories {
+  margin-top: 50px;
+  list-style: none;
+  font-weight: 500;
+}
+.repositories li {
+  color: rgb(80, 80, 80);
+  font-weight: 600;
+  margin-bottom: 10px;
+}

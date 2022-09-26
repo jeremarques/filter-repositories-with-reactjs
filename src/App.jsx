@@ -1,54 +1,54 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import './App.css';
 
 export default function App() {
   const [repos, setRepos] = useState([]);
-  const [filtredRepos, setFiltredRepos] = useState([]);
-  const [search, setSearch] = useState('');
+  const [filteredRepos, setFilteredRepos] = useState([]);
+  const [search, updateSearch] = useState('');
 
   useEffect(() => {
-    async function fetchRepositories() {
-      const response = await fetch('https://api.github.com/usersjeremarques/repos');
-      const data = await response.json();
-      setRepos(data);
-    };
-    fetchRepositories();
+    fetch('https://api.github.com/users/jeremarques/repos')
+      .then(response => response.json())
+      .then(data => setRepos(data));
   }, []);
 
   useEffect(() => {
-    setFiltredRepos(repos.filter(repo => repo.name.includes(search)))
+    setFilteredRepos(repos.filter(repo => repo.name.includes(search)))
   }, [search]);
 
+  function handleModalSearch() {
+    if (!search.length || search.length && !filteredRepos.length) {
+      return
+    } else {
+      setFilteredRepos([]);
+    };
+  };
+
   return (
-    <div className="App">
-      <input type="text" placeholder="Buscar" onChange={e => setSearch(e.target.value)} />
-      {
-        search.length > 0 ? (
-          <ul>
-            {
-              filtredRepos.map(repo => {
-                return (
-                  <li key={repo.name}>{ repo.name }</li>
-                )
-              }) 
-            }
-          </ul>
-        ) : (
-          <ul>
-          {
-            repos.map(repo => {
+    <div className="App" onClick={handleModalSearch}>
+      <input className="ipt-repos" onChange={ e => updateSearch(e.target.value) } type="text" placeholder="Search" />
+      <div className="filtered-repos">
+        {
+          search.length ? (
+            filteredRepos.map(filteredRepo => {
               return (
-                <li key={repo.name}>{ repo.name }</li>
+                <li key={filteredRepo.full_name}><a href={'https://github.com/' + filteredRepo.full_name} target='_blank' className="filtered-repo">{ filteredRepo.name }</a></li>
               )
             })
-          }
-        </ul>
-        )
-      }
-      {
-        // Verifica se o search é maior que 0, pois 0 é false, se for true continua, e se a quantidade de filtredRepos for 0 ele retorna true pois um número diferente de 0 é true e 0 é false, sendo assim todos true ele retorna a mensage de nunhum dado encontrado, e se uma das condições for false o alert fica vazio.
-        search.length && !filtredRepos.length ? <span className="alert">Nenhum resultado encontrado</span> : <span className="alert"></span>
-      }
-      
+          ) : null
+        }
+      </div>
+      <ul className="repositories">
+        {
+          repos.map(repo => {
+            return (
+              <li key={ repo.name }>
+                { repo.name }
+              </li>
+            )
+          })
+        }
+      </ul>
     </div>
   )
 };
