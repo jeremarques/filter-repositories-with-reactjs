@@ -16,6 +16,10 @@ export default function App() {
     setFilteredRepos(repos.filter(repo => repo.name.includes(search)))
   }, [search]);
 
+  useEffect(() => {
+    document.title = `${repos.length} Repositórios encontrados`
+  }, [repos])
+
   function handleModalSearch() {
     if (!search.length || search.length && !filteredRepos.length) {
       return
